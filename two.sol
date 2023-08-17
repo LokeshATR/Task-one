@@ -11,19 +11,18 @@ interface Defns {
         uint256 amount
     ) external;
 
-    function return_mint_amount() external  view returns  (uint);
+
+    function mint_contractA(address ads,uint256 amount) external ;
 }
 
 contract B is ERC20 {
     uint256 public initialamount;
     Defns public Aobject;
 
-    constructor() ERC20("Contract B", "BCT") {
-    }
+    constructor() ERC20("Contract B", "BCT") {}
 
     function InitializeContractAddress(address ads) public {
         Aobject = Defns(ads);
-        _mint(msg.sender, Aobject.return_mint_amount());
     }
 
     function transferto_amount(address to, uint256 amount) external {
@@ -39,12 +38,16 @@ contract B is ERC20 {
         _transfer(from, to, amount);
     }
 
-    function mint_contract(uint256 amount) public {
-        _mint(msg.sender, amount);
-        initialamount = amount;
-    }
+  
+  
+function mint_contractB(address ads,uint256 amount) external {
+_mint(ads, amount);
+}
 
-    function return_mint_amount() external  view returns  (uint){
-       return initialamount;
-    }
+function Mintsync(uint256 amount) public {
+_mint(msg.sender, amount);
+Aobject.mint_contractA(msg.sender,amount);
+}
+
+
 }
